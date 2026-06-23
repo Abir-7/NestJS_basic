@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { BullModule } from '@nestjs/bullmq';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,6 +19,12 @@ import { AuthModule } from './modules/auth/auth.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true, // only for development
+    }),
+    BullModule.forRoot({
+      connection: {
+        host: 'redis',
+        port: 6379,
+      },
     }),
 
     MailModule,
