@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
+      type: 'postgres',
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,

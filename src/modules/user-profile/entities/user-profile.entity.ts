@@ -9,7 +9,9 @@ export class UserProfile extends BaseEntity {
   fullName!: string;
   @Column({ name: 'bio' })
   bio!: string;
-  @OneToOne(() => UserProfilePhoto, (photo) => photo.userProfile)
+  @OneToOne(() => UserProfilePhoto, (photo) => photo.userProfile, {
+    cascade: true,
+  })
   photo!: UserProfilePhoto;
   @OneToOne(() => User, (user) => user.profile)
   @JoinColumn({ name: 'user_id' })

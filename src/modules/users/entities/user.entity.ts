@@ -9,8 +9,10 @@ export class User extends BaseEntity {
   email!: string;
   @Column()
   password!: string;
-  @OneToOne(() => UserProfile, (profile) => profile.user)
+  @OneToOne(() => UserProfile, (profile) => profile.user, { cascade: true })
   profile!: UserProfile;
-  @OneToOne(() => UserAuthentication, (authentication) => authentication.user)
+  @OneToOne(() => UserAuthentication, (authentication) => authentication.user, {
+    cascade: true,
+  })
   userAuthentication!: UserAuthentication;
 }
