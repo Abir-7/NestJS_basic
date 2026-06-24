@@ -11,7 +11,7 @@ export class UserAuthentication extends BaseEntity {
   @Column()
   token?: string;
   @Column({ default: 'unused' })
-  status!: string;
+  status?: string;
   @OneToOne(() => User, (user) => user.userAuthentication)
   @JoinColumn({ name: 'user_id' })
   user!: User;
