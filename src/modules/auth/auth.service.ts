@@ -1,15 +1,16 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { MailService } from '../mail/mail.service';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserProfile } from '../user-profile/entities/user-profile.entity';
 import { User } from '../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
+import { EmailProducer } from '../jobs/producers/email.producer';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly mailService: MailService,
+    private readonly emailProducer: EmailProducer,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(UserProfile)

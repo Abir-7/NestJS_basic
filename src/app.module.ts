@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BullModule } from '@nestjs/bullmq';
+import { JobsModule } from './modules/jobs/jobs.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,7 +23,7 @@ import { BullModule } from '@nestjs/bullmq';
     }),
     BullModule.forRoot({
       connection: {
-        host: 'redis',
+        host: 'localhost',
         port: 6379,
       },
     }),
@@ -30,6 +31,8 @@ import { BullModule } from '@nestjs/bullmq';
     MailModule,
 
     AuthModule,
+
+    JobsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
