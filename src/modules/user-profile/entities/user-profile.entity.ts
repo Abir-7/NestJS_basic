@@ -7,13 +7,13 @@ import { User } from '../../users/entities/user.entity';
 export class UserProfile extends BaseEntity {
   @Column({ name: 'full_name' })
   fullName!: string;
-  @Column({ name: 'bio' })
+  @Column({ nullable: true })
   bio!: string;
   @OneToOne(() => UserProfilePhoto, (photo) => photo.userProfile, {
     cascade: true,
   })
   photo!: UserProfilePhoto;
-  @OneToOne(() => User, (user) => user.profile)
+  @OneToOne(() => User, (user) => user.profile, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: User;
 }

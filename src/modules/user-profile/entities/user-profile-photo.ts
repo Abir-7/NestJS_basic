@@ -11,11 +11,13 @@ import { UserProfile } from './user-profile.entity';
 export class UserProfilePhoto {
   @PrimaryGeneratedColumn()
   id!: string;
-  @Column({ name: 'image_id' })
+  @Column({ name: 'image_id', nullable: true })
   imageId?: string;
-  @Column({ name: 'image' })
+  @Column({ name: 'image', nullable: true })
   image?: string;
-  @OneToOne(() => UserProfile, (userProfile) => userProfile.photo)
+  @OneToOne(() => UserProfile, (userProfile) => userProfile.photo, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_profile_id' })
   userProfile!: UserProfile;
 }
