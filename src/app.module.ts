@@ -7,6 +7,7 @@ import { MailModule } from './modules/mail/mail.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BullModule } from '@nestjs/bullmq';
 import { JobsModule } from './modules/jobs/jobs.module';
+import { UserDeviceModule } from './modules/user-device/user-device.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,8 @@ import { JobsModule } from './modules/jobs/jobs.module';
     AuthModule,
 
     JobsModule,
+
+    UserDeviceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

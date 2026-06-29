@@ -18,10 +18,13 @@ import {
 } from '../user-authentication/entities/user-authentication.entity';
 import { DeleteUserDto } from './dto/deleteUser.dto';
 import { UserProfilePhoto } from '../user-profile/entities/user-profile-photo';
+import { UserDevices } from '../user-device/entities/user-device.entity';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly emailProducer: EmailProducer,
+    @InjectRepository(UserDevices)
+    private readonly userDeviceRepository: Repository<UserDevices>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(UserProfile)
@@ -33,10 +36,13 @@ export class AuthService {
   ) {}
   async register(dto: RegisterDto) {
     const existingUser = await this.userRepository.findOne({
-      where: { email: dto.email },
+      where: dto.email ? { email: dto.email } : { phone: dto.phone },
     });
+
     if (existingUser && existingUser.isVerified) {
-      throw new ConflictException('Email already exists');
+      throw new ConflictException(
+        dto.email ? 'Email already exists' : 'Phone already exist',
+      );
     }
 
     if (existingUser && existingUser.id) {
@@ -55,11 +61,23 @@ export class AuthService {
       code: otp,
       type: AuthenticationType.EMAIL_VERIFICATION,
     });
+
+    const userDevice = this.userDeviceRepository.create({
+      deviceModel: dto.device_model,
+      deviceFingerprint: dto.device_fingerprint,
+      ipAddress: dto.ip_Address,
+      isEmulator: dto.is_emulator,
+      isLoggedIn: false,
+      osType: dto.os_type,
+    });
+
     const user = this.userRepository.create({
       email: dto.email,
+      phone: dto.phone,
       password: hashedPassword,
       profile,
       userAuthentication,
+      userDevices: [userDevice],
     });
 
     const savedUser = await this.userRepository.save(user);
@@ -67,9 +85,12 @@ export class AuthService {
     if (savedUser.email) {
       await this.emailProducer.sendVerificationEmail(savedUser.email, otp);
     }
+    if (savedUser.phone) {
+      console.log('phone otp service');
+    }
     return {
       message: 'Registration successful',
-      user_id: savedUser.id,
+      userId: savedUser.id,
     };
   }
   async deleteUser(dto: DeleteUserDto) {

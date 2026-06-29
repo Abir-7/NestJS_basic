@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../../common/entities/base.entity';
 import { UserProfile } from '../../user-profile/entities/user-profile.entity';
 import { UserAuthentication } from '../../user-authentication/entities/user-authentication.entity';
+import { UserDevices } from '../../user-device/entities/user-device.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -25,4 +26,9 @@ export class User extends BaseEntity {
     },
   )
   userAuthentication!: UserAuthentication;
+
+  @OneToMany(() => UserDevices, (device) => device.user, {
+    cascade: true,
+  })
+  userDevices!: UserDevices[];
 }

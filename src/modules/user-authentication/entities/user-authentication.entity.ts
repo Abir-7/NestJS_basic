@@ -4,6 +4,7 @@ import { User } from '../../users/entities/user.entity';
 
 export enum AuthenticationType {
   EMAIL_VERIFICATION = 'email_verification',
+  PHONE_VERIFICATION = 'phone_verification',
   PASSWORD_RESET = 'password_reset',
 }
 

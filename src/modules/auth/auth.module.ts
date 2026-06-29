@@ -9,6 +9,7 @@ import { UserAuthentication } from '../user-authentication/entities/user-authent
 import { UserProfilePhoto } from '../user-profile/entities/user-profile-photo';
 
 import { JobsModule } from '../jobs/jobs.module';
+import { UserDevices } from '../user-device/entities/user-device.entity';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { JobsModule } from '../jobs/jobs.module';
       UserProfile,
       UserAuthentication,
       UserProfilePhoto,
+      UserDevices,
     ]),
     JobsModule,
   ],
