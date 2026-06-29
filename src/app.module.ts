@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BullModule } from '@nestjs/bullmq';
 import { JobsModule } from './modules/jobs/jobs.module';
 import { UserDeviceModule } from './modules/user-device/user-device.module';
+import { SmsModule } from './modules/sms/sms.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -36,6 +37,7 @@ import { UserDeviceModule } from './modules/user-device/user-device.module';
     JobsModule,
 
     UserDeviceModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
