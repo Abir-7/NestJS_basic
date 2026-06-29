@@ -19,9 +19,11 @@ import {
 import { DeleteUserDto } from './dto/deleteUser.dto';
 import { UserProfilePhoto } from '../user-profile/entities/user-profile-photo';
 import { UserDevices } from '../user-device/entities/user-device.entity';
+import { SmsProducer } from '../jobs/producers/sms.producer';
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly smsProducer: SmsProducer,
     private readonly emailProducer: EmailProducer,
     @InjectRepository(UserDevices)
     private readonly userDeviceRepository: Repository<UserDevices>,
@@ -86,7 +88,7 @@ export class AuthService {
       await this.emailProducer.sendVerificationEmail(savedUser.email, otp);
     }
     if (savedUser.phone) {
-      console.log('phone otp service');
+      await this.smsProducer.sendOtp(savedUser.phone, otp);
     }
     return {
       message: 'Registration successful',

@@ -12,7 +12,7 @@ export class RegisterDto {
   @IsString()
   full_name?: string;
 
-  @ValidateIf((o) => !(o as RegisterDto).email)
+  @ValidateIf((o) => !(o as RegisterDto).phone)
   @IsEmail()
   email?: string;
 
