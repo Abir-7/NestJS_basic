@@ -16,4 +16,11 @@ export class EmailProducer {
       otp,
     });
   }
+
+  async sendPasswordResetEmail(email: string, otp: string) {
+    await this.queue.add('send-password-reset-email', {
+      email,
+      otp,
+    });
+  }
 }
