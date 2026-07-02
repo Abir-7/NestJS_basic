@@ -5,6 +5,7 @@ import {
 } from './interface/sms-provider.interface';
 import { ConfigService } from '@nestjs/config';
 import { AfroMessageProvider } from './providers/afro-message.provider';
+import { TwilioProvider } from './providers/twilio.provider';
 
 @Injectable()
 export class SmsService {
@@ -14,6 +15,7 @@ export class SmsService {
   constructor(
     private readonly configService: ConfigService,
     private readonly afroMessageProvider: AfroMessageProvider,
+    private readonly twilioProvider: TwilioProvider,
   ) {
     const active = this.configService.getOrThrow<string>('SMS_PROVIDER');
 
@@ -23,7 +25,8 @@ export class SmsService {
         break;
 
       case 'twilio':
-        throw new Error('Twilio provider not implemented yet');
+        this.provider = this.twilioProvider;
+        break;
 
       default:
         throw new BadRequestException(
